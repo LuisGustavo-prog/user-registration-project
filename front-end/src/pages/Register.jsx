@@ -106,7 +106,7 @@ const s = {
     backdropFilter: 'blur(12px)',
   },
   title: { color: '#f0f4ff', fontSize: '22px', fontWeight: '600', textAlign: 'center', margin: '0 0 8px 0' },
-  subtitle: { color: '#4a6080', fontSize: '14px', textAlign: 'center', margin: '0 0 32px 0' },
+  subtitle: { color: '#8aa8c8', fontSize: '14px', textAlign: 'center', margin: '0 0 32px 0' },
   errorBox: {
     background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
     color: '#f87171', fontSize: '13px', padding: '11px 14px',
@@ -114,9 +114,9 @@ const s = {
   },
   form: { display: 'flex', flexDirection: 'column', gap: '16px' },
   fieldWrap: { display: 'flex', flexDirection: 'column', gap: '6px' },
-  label: { color: '#6b8ab0', fontSize: '13px', fontWeight: '500' },
+  label: { color: '#8aa8c8', fontSize: '13px', fontWeight: '500' },
   input: {
-    background: '#071020', border: '1px solid #2a3a5c',
+    background: '#071020', border: '1px solid #3a5a80',
     borderRadius: '10px', padding: '11px 14px',
     color: '#e8f0fe', fontSize: '14px', outline: 'none',
     transition: 'border-color 0.2s, box-shadow 0.2s',
@@ -131,7 +131,7 @@ const s = {
     cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif",
     boxShadow: '0 4px 20px rgba(245,158,11,0.3)',
   },
-  footer: { color: '#2e4a6a', fontSize: '13px', textAlign: 'center', marginTop: '24px' },
+  footer: { color: '#4a6a8a', fontSize: '13px', textAlign: 'center', marginTop: '24px' },
   link: { color: '#f59e0b', textDecoration: 'none', fontWeight: '500' },
 }
 
