@@ -30,7 +30,7 @@ function Register() {
   }
 
   const fields = [
-    { name: 'name', label: 'Nome completo', type: 'text', placeholder: 'João Silva' },
+    { name: 'name', label: 'Nome completo', type: 'text', placeholder: 'seu nome' },
     { name: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' },
     { name: 'telephone', label: 'Telefone', type: 'text', placeholder: '(11) 99999-9999' },
     { name: 'password', label: 'Senha (mín. 8 caracteres)', type: 'password', placeholder: '••••••••' },

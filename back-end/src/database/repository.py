@@ -18,6 +18,11 @@ async def _get_full_user(id: str = None, email: str = None) -> dict:
 async def create_user(name: str, email: str, telephone: str, password: str):
     password_hash = creating_hash(password=password)
 
+    email_exists = await users_collection.find_one({'email': email})
+
+    if email_exists is not None:
+        raise Exception('Error: Email address already registered in the database.')
+
     data = {
         'id': generate_id(),
         'name': name,
