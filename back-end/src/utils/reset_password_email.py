@@ -9,7 +9,7 @@ load_dotenv()
 EMAIL = os.getenv('EMAIL')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
-def build_delete_email(code: str) -> str:
+def build_reset_password_email(code: str) -> str:
     return f"""
     <html>
     <body style="margin:0;padding:0;background:#f1efe8;font-family:sans-serif;">
@@ -24,8 +24,8 @@ def build_delete_email(code: str) -> str:
                         </tr>
                         <tr>
                             <td style="padding:32px;">
-                                <p style="font-size:15px;font-weight:500;color:#2c2c2a;margin:0 0 8px;">Account deletion request</p>
-                                <p style="font-size:14px;color:#5f5e5a;margin:0 0 24px;line-height:1.6;">We received a request to permanently delete your account. This action is irreversible and all your data will be lost.</p>
+                                <p style="font-size:15px;font-weight:500;color:#2c2c2a;margin:0 0 8px;">Password reset request</p>
+                                <p style="font-size:14px;color:#5f5e5a;margin:0 0 24px;line-height:1.6;">We received a request to reset your account password. If this was you, use the code below to proceed.</p>
                                 <p style="font-size:13px;color:#5f5e5a;margin:0 0 12px;">Use the code below to confirm:</p>
                                 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1efe8;border-radius:8px;border:1px solid #d3d1c7;margin-bottom:24px;">
                                     <tr>
@@ -41,7 +41,7 @@ def build_delete_email(code: str) -> str:
                                         </td>
                                     </tr>
                                 </table>
-                                <p style="font-size:13px;color:#888780;margin:0;line-height:1.6;">If you did not request account deletion, please ignore this email. Your account will remain active.</p>
+                                <p style="font-size:13px;color:#888780;margin:0;line-height:1.6;">If you did not request a password reset, please ignore this email. Your password will not be changed.</p>
                             </td>
                         </tr>
                         <tr>
@@ -57,13 +57,13 @@ def build_delete_email(code: str) -> str:
     </html>
     """
 
-async def send_delete_confirmation(email: str, code: str) -> None:
+async def send_reset_password_email(email: str, code: str) -> None:
     message = MIMEMultipart('alternative')
-    message['Subject'] = 'Account deletion confirmation'
+    message['Subject'] = 'Password reset confirmation'
     message['From'] = EMAIL
     message['To'] = email
 
-    message.attach(MIMEText(build_delete_email(code), 'html', 'utf-8'))
+    message.attach(MIMEText(build_reset_password_email(code), 'html', 'utf-8'))
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
         server.login(EMAIL, EMAIL_PASSWORD)

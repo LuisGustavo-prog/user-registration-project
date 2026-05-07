@@ -1,8 +1,9 @@
-from src.core.security_password import creating_hash, authenticate_password, change_password
+from src.core.security_password import creating_hash, authenticate_password, change_password, generate_reset_code
 from src.core.token_jwt import decode_token
 from src.database.connection import users_collection
 from src.core.generate_id import generate_id
-from src.utils.email import send_delete_confirmation
+from src.utils.delete_account_email import send_delete_account_email
+from src.utils.reset_password_email import send_reset_password_email
 from datetime import datetime, timezone
 import random
 
@@ -150,7 +151,7 @@ async def request_delete_user(token: str, password: str):
     account_deletion_code = random.randint(100000, 999999)
     await users_collection.update_one({'id': token_decode['id']}, {'$set': {'account_deletion_code': account_deletion_code}})
 
-    await send_delete_confirmation(email=user['email'], code=account_deletion_code)
+    await send_delete_account_email(email=user['email'], code=account_deletion_code)
     
     return True
 
@@ -172,3 +173,33 @@ async def confirm_delete_user(token: str, code: str):
     except Exception as e:
         raise Exception('Error validating code.')
     
+async def request_reset_password(email: str):
+    user = await users_collection.find_one({"email": email})
+
+    if not user:
+        raise ValueError("User not found.")
+    
+    code = generate_reset_code()
+    await users_collection.update_one(
+        {"email": email},
+        {"$set": {"password_reset_code": code}}
+    )
+
+    await send_reset_password_email(email=email, code=code)
+    
+async def confirm_reset_password(email: str, code: int, new_password: str):
+    user = await users_collection.find_one({"email": email})
+    if not user:
+        raise ValueError("User not found.")
+
+    if user.get("password_reset_code") != code:
+        raise ValueError("Invalid or expired code.")
+
+    hashed = creating_hash(new_password)  
+    await users_collection.update_one(
+        {"email": email},
+        {
+            "$set": {"password": hashed},
+            "$unset": {"password_reset_code": ""}  
+        }
+    )

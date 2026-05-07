@@ -37,3 +37,19 @@ class Login(BaseModel):
 class UpdatePassword(BaseModel):
     old_password: str
     new_password: str
+
+class RequestResetPassword(BaseModel):
+    email: EmailStr
+
+class ConfirmResetPassword(BaseModel):
+    email: EmailStr
+    code: int
+    new_password: str
+
+    @field_validator('new_password')
+    def validate_password(cls, value):
+        if len(value) > 72:
+            raise ValueError('Password cannot be longer than 72 characters.')
+        if len(value) < 8:
+            raise ValueError('Password must be at least 8 characters.')
+        return value

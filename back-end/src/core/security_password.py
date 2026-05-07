@@ -1,4 +1,5 @@
 from passlib.context import CryptContext
+import random
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
@@ -13,3 +14,6 @@ def change_password(old_password: str, new_password: str, hashed_password: str):
         raise ValueError('Incorrect current password.')
     
     return creating_hash(new_password)
+
+def generate_reset_code() -> int:
+    return random.randint(100000, 999999)
