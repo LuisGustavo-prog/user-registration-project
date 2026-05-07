@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { register } from '../services/authService'
+import { register, login } from '../services/authService'
+import { saveToken } from '../utils/auth'
 
 function Register() {
   const navigate = useNavigate()
@@ -21,7 +22,9 @@ function Register() {
     }
     try {
       await register(formData)
-      navigate('/login')
+      const response = await login({ email: formData.email, password: formData.password })
+      saveToken(response.data.token)
+      navigate('/dashboard')
     } catch (err) {
       setError(err.response?.data?.detail || 'Erro ao cadastrar')
     } finally {
