@@ -15,5 +15,5 @@ def change_password(old_password: str, new_password: str, hashed_password: str):
     
     return creating_hash(new_password)
 
-def generate_reset_code() -> int:
+def generate_reset_code():
     return random.randint(100000, 999999)

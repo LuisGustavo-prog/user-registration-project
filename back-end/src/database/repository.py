@@ -4,10 +4,10 @@ from src.database.connection import users_collection
 from src.core.generate_id import generate_id
 from src.utils.delete_account_email import send_delete_account_email
 from src.utils.reset_password_email import send_reset_password_email
+from src.utils.generate_code import create_code
 from datetime import datetime, timezone
-import random
 
-async def _get_full_user(id: str = None, email: str = None) -> dict:
+async def _get_full_user(id: str = None, email: str = None):
     try:
         if id is not None:
             return await users_collection.find_one({'id': id})
@@ -57,7 +57,7 @@ async def login_user(email: str, password: str):
     
     return user
 
-async def get_user(id: str = None, email: str = None) -> dict:
+async def get_user(id: str = None, email: str = None):
     try:
         if id is not None:
             user = await users_collection.find_one({'id': id})
@@ -148,7 +148,7 @@ async def request_delete_user(token: str, password: str):
     if not correct_password:
         raise Exception('Invalid password.')
     
-    account_deletion_code = random.randint(100000, 999999)
+    account_deletion_code = create_code()
     await users_collection.update_one({'id': token_decode['id']}, {'$set': {'account_deletion_code': account_deletion_code}})
 
     await send_delete_account_email(email=user['email'], code=account_deletion_code)

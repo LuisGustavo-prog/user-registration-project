@@ -9,7 +9,7 @@ load_dotenv()
 EMAIL = os.getenv('EMAIL')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
-def build_reset_password_email(code: str) -> str:
+def build_reset_password_email(code: str):
     return f"""
     <html>
     <body style="margin:0;padding:0;background:#f1efe8;font-family:sans-serif;">
@@ -57,7 +57,7 @@ def build_reset_password_email(code: str) -> str:
     </html>
     """
 
-async def send_reset_password_email(email: str, code: str) -> None:
+async def send_reset_password_email(email: str, code: str):
     message = MIMEMultipart('alternative')
     message['Subject'] = 'Password reset confirmation'
     message['From'] = EMAIL
