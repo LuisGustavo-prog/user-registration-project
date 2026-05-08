@@ -46,6 +46,8 @@ function Login() {
         <p style={s.footer}>
           Sem conta?{' '}
           <Link to="/register" style={s.link}>Criar conta</Link>
+          {' · '}
+          <Link to="/forgot-password" style={s.link}>Esqueceu a senha?</Link>
         </p>
       </div>
     </div>
